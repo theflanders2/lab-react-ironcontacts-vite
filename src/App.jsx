@@ -60,6 +60,8 @@ function App() {
             <th scope='col'><h2>Picture</h2></th>
             <th scope='col'><h2>Name</h2></th>
             <th scope='col'><h2>Popularity</h2></th>
+            <th scope='col'><h2>Won an Oscar</h2></th>
+            <th scope='col'><h2>Won an Emmy</h2></th>
           </tr>
         </thead>
 
@@ -70,6 +72,8 @@ function App() {
                     <td scope='row'><img src={contact.pictureUrl}/></td>
                     <td scope='row'>{contact.name}</td>
                     <td scope='row'>{contact.popularity}</td>
+                    {contact.wonOscar ? <td scope='row'><span role="img" aria-label="trophy">🏆</span></td> : <td></td>}
+                    {contact.wonEmmy ? <td scope='row'><span role="img" aria-label="trophy">🌟</span></td> : <td></td>}
                   </tr>
                 </tbody>  
               )
