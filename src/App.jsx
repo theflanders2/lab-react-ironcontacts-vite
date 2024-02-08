@@ -43,13 +43,13 @@ function App() {
     console.log(newContactsList);
   };
 
-  /*-----SORT CONTACTS BY NAME AND UPDATE STATE-----*/
+  /*-----SORT CONTACTS BY NAME (ASCENDING) AND UPDATE STATE-----*/
   const sortByNameAscend = () => {
     const sortedContacts = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
     setContacts(sortedContacts);
   };
 
-  /*-----SORT CONTACTS BY NAME AND UPDATE STATE-----*/
+  /*-----SORT CONTACTS BY NAME (DESCENDING) AND UPDATE STATE-----*/
   const sortByNameDescend = () => {
     const sortedContacts = [...contacts].sort((a, b) => b.name.localeCompare(a.name));
     setContacts(sortedContacts);
@@ -67,10 +67,18 @@ function App() {
     setContacts(sortedContacts);
   };
 
+  /*-----REMOVE CONTACT AND UPDATE STATE-----*/ 
+  const removeContact = (id) => {
+    // all contacts, whose id does not match the id clicked on will remain in the list
+    const contactListAfterDelete = contacts.filter(contact => contact.id !== id);
+    setContacts(contactListAfterDelete);
+  };
+
   return (
     <div className="App">
       <h1>IronContacts</h1>
       <button onClick={addRandomContact}>Add Random Contact</button>
+      <br />
       <button onClick={sortByNameAscend}>Sort Contacts by Name - A-Z</button>
       <button onClick={sortByNameDescend}>Sort Contacts by Name - Z-A</button>
       <br />
@@ -96,6 +104,7 @@ function App() {
                     <td scope='row'>{contact.popularity}</td>
                     {contact.wonOscar ? <td scope='row'><span role="img" aria-label="trophy">🏆</span></td> : <td></td>}
                     {contact.wonEmmy ? <td scope='row'><span role="img" aria-label="trophy">🌟</span></td> : <td></td>}
+                    <td><button onClick={() => removeContact(contact.id)}>Delete</button></td>
                   </tr>
                 </tbody>  
               )
