@@ -1,59 +1,50 @@
 import "./App.css";
-import contacts from './contacts.json';
+import allContacts from './contacts.json';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
+  
+  // use allContacts.slice(0,5) to access the first 5 elements of the array
+  // set useState to first 5 contacts (initialContacts) of allContacts list
+
   // declare the state variable "contacts" and set the 
   // first 5 contacts of the contacts list as the initial state
-  const [contacts, setContacts] = useState(
-    [
-      {
-        "name": "Arnold Schwarzenegger",
-        "pictureUrl": "https://image.tmdb.org/t/p/w500/sOkCXc9xuSr6v7mdAq9LwEBje68.jpg",
-        "popularity": 18.216362,
-        "id": "4fe4d8ef-0fac-4bd9-8c02-ed89b668b2a9",
-        "wonOscar": false,
-        "wonEmmy": true
-      },
-      {
-        "name": "Ben Affleck",
-        "pictureUrl": "https://image.tmdb.org/t/p/w500/cPuPt6mYJ83DjvO3hbjNGug6Fbi.jpg",
-        "popularity": 9.157077,
-        "id": "1599707e-5f49-4529-b920-db3831419b04",
-        "wonOscar": true,
-        "wonEmmy": false
-      },
-      {
-        "name": "Idris Elba",
-        "pictureUrl": "https://image.tmdb.org/t/p/w500/d9NkfCwczP0TjgrjpF94jF67SK8.jpg",
-        "popularity": 11.622713,
-        "id": "11731993-0604-4bee-80d5-67ad845d0a38",
-        "wonOscar": false,
-        "wonEmmy": false
-      },
-      {
-        "name": "Johnny Depp",
-        "pictureUrl": "https://image.tmdb.org/t/p/w500/kbWValANhZI8rbWZXximXuMN4UN.jpg",
-        "popularity": 15.656534,
-        "id": "7dad00f7-3949-477d-a7e2-1467fd2cfc06",
-        "wonOscar": false,
-        "wonEmmy": false
-      },
-      {
-        "name": "Monica Bellucci",
-        "pictureUrl": "https://image.tmdb.org/t/p/w500/qlT4904d8oi2NIs28RrgnIZDFZB.jpg",
-        "popularity": 16.096436,
-        "id": "0ad5e441-3084-47a1-9e9b-b917539bba71",
-        "wonOscar": false,
-        "wonEmmy": false
+  const [contacts, setContacts] = useState(allContacts.slice(0,5));
+  
+  /*-----DECLARE+INIT remainingContacts-----*/
+  // remainingContacts includes all contacts starting from the 5 element of the allContacts array
+  const remainingContacts = allContacts.slice(5);
+
+  /*-----ADD NEW RANDOM CONTACT FROM remainingContacts ARRAY-----*/
+  const addRandomContact = () => {
+    let randomNum = Math.floor(Math.random() * remainingContacts.length);
+    let randomContact = remainingContacts[randomNum];
+    // console.log(randomContact);
+
+    // add random contact to array that lives in useState()
+    let newContactsList = [...contacts];
+    if (newContactsList.length === allContacts.length) {
+      console.log("There are no more contacts that can be added.")
+      alert("There are no more contacts that can be added.");
+      return;
+    }
+    else {
+      if (newContactsList.some((alreadyListedContact) => alreadyListedContact.id === randomContact.id)) {
+        addRandomContact();
       }
-    ]
-  );
+      else {
+        newContactsList.push(randomContact);
+        setContacts(newContactsList);
+      }
+    }
+    console.log(newContactsList);
+  };
 
   return (
     <div className="App">
       <h1>IronContacts</h1>
+      <button onClick={addRandomContact}>Add Random Contact</button>
       <table>
         <thead>
           <tr>
@@ -68,7 +59,7 @@ function App() {
             {contacts.map(contact => {
               return (
                 <tbody>
-                  <tr>
+                  <tr key={contact.id} >
                     <td scope='row'><img src={contact.pictureUrl}/></td>
                     <td scope='row'>{contact.name}</td>
                     <td scope='row'>{contact.popularity}</td>
