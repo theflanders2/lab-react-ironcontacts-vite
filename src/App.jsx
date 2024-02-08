@@ -12,7 +12,6 @@ function App() {
   // first 5 contacts of the contacts list as the initial state
   const [contacts, setContacts] = useState(allContacts.slice(0,5));
   
-  /*-----DECLARE+INIT remainingContacts-----*/
   // remainingContacts includes all contacts starting from the 5 element of the allContacts array
   const remainingContacts = allContacts.slice(5);
 
@@ -24,12 +23,15 @@ function App() {
 
     // add random contact to array that lives in useState()
     let newContactsList = [...contacts];
+
+    // if list is empty, alert user no no more contacts can be added
     if (newContactsList.length === allContacts.length) {
       console.log("There are no more contacts that can be added.")
       alert("There are no more contacts that can be added.");
       return;
     }
     else {
+      // check to see if contact is already displayed in the list
       if (newContactsList.some((alreadyListedContact) => alreadyListedContact.id === randomContact.id)) {
         addRandomContact();
       }
@@ -41,10 +43,39 @@ function App() {
     console.log(newContactsList);
   };
 
+  /*-----SORT CONTACTS BY NAME AND UPDATE STATE-----*/
+  const sortByNameAscend = () => {
+    const sortedContacts = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+    setContacts(sortedContacts);
+  };
+
+  /*-----SORT CONTACTS BY NAME AND UPDATE STATE-----*/
+  const sortByNameDescend = () => {
+    const sortedContacts = [...contacts].sort((a, b) => b.name.localeCompare(a.name));
+    setContacts(sortedContacts);
+  };
+
+  /*-----SORT CONTACTS BY POPULARITY (DESCENDING) AND UPDATE STATE-----*/
+  const sortByPopularityDescend = () => {
+    const sortedContacts = [...contacts].sort((a, b) => b.popularity - a.popularity);
+    setContacts(sortedContacts);
+  };
+
+  /*-----SORT CONTACTS BY POPULARITY (ASCENDING) AND UPDATE STATE-----*/
+  const sortByPopularityAscend = () => {
+    const sortedContacts = [...contacts].sort((a, b) => a.popularity - b.popularity);
+    setContacts(sortedContacts);
+  };
+
   return (
     <div className="App">
       <h1>IronContacts</h1>
       <button onClick={addRandomContact}>Add Random Contact</button>
+      <button onClick={sortByNameAscend}>Sort Contacts by Name - A-Z</button>
+      <button onClick={sortByNameDescend}>Sort Contacts by Name - Z-A</button>
+      <br />
+      <button onClick={sortByPopularityDescend}>Sort Contacts by Popularity - Highest First</button>
+      <button onClick={sortByPopularityAscend}>Sort Contacts by Popularity - Lowest First</button>
       <table>
         <thead>
           <tr>
