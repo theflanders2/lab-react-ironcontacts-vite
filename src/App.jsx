@@ -1,7 +1,12 @@
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import allContacts from './contacts.json';
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function App() {
   
@@ -77,39 +82,47 @@ function App() {
   return (
     <div className="App">
       <h1>IronContacts</h1>
-      <button onClick={addRandomContact}>Add Random Contact</button>
+      <Button variant="outline-success" onClick={addRandomContact}>Add Random Contact</Button>{' '}
       <br />
-      <button onClick={sortByNameAscend}>Sort Contacts by Name - A-Z</button>
-      <button onClick={sortByNameDescend}>Sort Contacts by Name - Z-A</button>
       <br />
-      <button onClick={sortByPopularityDescend}>Sort Contacts by Popularity - Highest First</button>
-      <button onClick={sortByPopularityAscend}>Sort Contacts by Popularity - Lowest First</button>
-      <table>
-        <thead>
-          <tr>
-            <th scope='col'><h2>Picture</h2></th>
-            <th scope='col'><h2>Name</h2></th>
-            <th scope='col'><h2>Popularity</h2></th>
-            <th scope='col'><h2>Won an Oscar</h2></th>
-            <th scope='col'><h2>Won an Emmy</h2></th>
-          </tr>
-        </thead>
+      <Button variant="outline-secondary" size="sm" onClick={sortByNameAscend}>Sort Contacts by Name - A-Z</Button>{' '}
+      <Button variant="outline-secondary" size="sm" onClick={sortByNameDescend}>Sort Contacts by Name - Z-A</Button>{' '}
+      <br />
+      <br />
+      <Button variant="outline-primary" size="sm" onClick={sortByPopularityDescend}>Sort Contacts by Popularity - Highest First</Button>{' '}
+      <Button variant="outline-primary" size="sm" onClick={sortByPopularityAscend}>Sort Contacts by Popularity - Lowest First</Button>{' '}
+      <br />
+      <br />
+      <Table>
+        <Row>
+          <Col  xs={6} md={4}>
+            <thead>
+              <tr>
+                <th scope='col'><h3>Picture</h3></th>
+                <th scope='col'><h3>Name</h3></th>
+                <th scope='col'><h3>Popularity</h3></th>
+                <th scope='col'><h3>Won Oscar</h3></th>
+                <th scope='col'><h3>Won Emmy</h3></th>
+              </tr>
+            </thead>
 
             {contacts.map(contact => {
               return (
                 <tbody>
                   <tr key={contact.id} >
-                    <td scope='row'><img src={contact.pictureUrl}/></td>
-                    <td scope='row'>{contact.name}</td>
-                    <td scope='row'>{contact.popularity}</td>
-                    {contact.wonOscar ? <td scope='row'><span role="img" aria-label="trophy">🏆</span></td> : <td></td>}
-                    {contact.wonEmmy ? <td scope='row'><span role="img" aria-label="trophy">🌟</span></td> : <td></td>}
-                    <td><button onClick={() => removeContact(contact.id)}>Delete</button></td>
+                      <td scope='row'><Image src={contact.pictureUrl} thumbnail/></td>
+                      <td scope='row'>{contact.name}</td>
+                      <td scope='row'>{contact.popularity}</td>
+                      {contact.wonOscar ? <td scope='row'><span role="img" aria-label="trophy">🏆</span></td> : <td></td>}
+                      {contact.wonEmmy ? <td scope='row'><span role="img" aria-label="trophy">🌟</span></td> : <td></td>}
+                      <td><Button variant="outline-danger" size="sm" onClick={() => removeContact(contact.id)}>Delete</Button></td>
                   </tr>
                 </tbody>  
               )
             })}
-      </table>
+          </Col>
+        </Row>
+      </Table>
     </div>
   );
 }
